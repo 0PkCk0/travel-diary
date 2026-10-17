@@ -1,0 +1,22 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Shadow under the pin -->
+    <path
+        android:fillColor="#59FFFFFF"
+        android:pathData="M45,81 A9,2.5 0 1,1 63,81 A9,2.5 0 1,1 45,81 Z" />
+    <!-- Pin -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,26 C43.51,26 35,34.51 35,45 C35,57 46,68 54,80 C62,68 73,57 73,45 C73,34.51 64.49,26 54,26 Z" />
+    <!-- Globe -->
+    <path
+        android:fillColor="@color/ic_launcher_background"
+        android:pathData="M43,45 A11,11 0 1,1 65,45 A11,11 0 1,1 43,45 Z" />
+    <path
+        android:pathData="M43,45 L65,45 M44.5,39.5 L63.5,39.5 M44.5,50.5 L63.5,50.5 M50,45 A4,11 0 1,1 58,45 A4,11 0 1,1 50,45 Z"
+        android:strokeWidth="1.6"
+        android:strokeColor="#FFFFFFFF" />
+</vector>

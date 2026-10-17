@@ -1,0 +1,30 @@
+package app.traveldiary
+
+import android.content.Context
+import app.traveldiary.data.cities.CityDatabase
+import app.traveldiary.data.cities.CityRepository
+import app.traveldiary.data.countries.CountryRepository
+import app.traveldiary.data.diary.DiaryDatabase
+import app.traveldiary.data.diary.DiaryRepository
+import app.traveldiary.map.WorldMapRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+
+/** Creates and holds the app-wide objects; screens get what they need from here. */
+class AppContainer(context: Context) {
+    val context: Context = context.applicationContext
+
+    /** For work that must outlive a screen, like importing a city database. */
+    val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+    val countries = CountryRepository(this.context)
+    val diary = DiaryRepository(DiaryDatabase.create(this.context))
+    val cities = CityRepository(this.context, CityDatabase.create(this.context), scope)
+    val worldMap = WorldMapRepository(this.context, scope)
+
+    fun start() {
+        worldMap.load()
+        cities.ensureBuiltInInstalled()
+    }
+}

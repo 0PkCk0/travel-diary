@@ -1,0 +1,126 @@
+package app.traveldiary.map
+
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.detectTransformGestures
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
+import app.traveldiary.map.MillerProjection.WORLD_WIDTH
+import app.traveldiary.ui.theme.LocalMapColors
+
+/** A place on the map, in map units. */
+@Immutable
+data class MapPin(val id: Long, val position: Offset)
+
+/**
+ * The world map: visited countries filled, places shown as pins. Drag to pan, pinch or
+ * double-tap to zoom, tap a country or a pin, long-press to pick a position.
+ */
+@Composable
+fun WorldMap(
+    map: WorldMap?,
+    state: MapViewportState,
+    visitedCountries: Set<String>,
+    pins: List<MapPin>,
+    modifier: Modifier = Modifier,
+    selectedCountry: String? = null,
+    interactive: Boolean = true,
+    onCountryClick: (String?) -> Unit = {},
+    onPinClick: (Long) -> Unit = {},
+    onLongPress: (Offset) -> Unit = {},
+) {
+    val colors = LocalMapColors.current
+    val scope = rememberCoroutineScope()
+    val pinTouchRadius = with(LocalDensity.current) { 24.dp.toPx() }
+    val visitedPath = remember(map, visitedCountries) { map?.pathOf(visitedCountries) }
+    val selectedPath = remember(map, selectedCountry) { selectedCountry?.let { map?.path(it) } }
+
+    // The gesture detectors are installed once; let them see the latest values.
+    val currentMap by rememberUpdatedState(map)
+    val currentPins by rememberUpdatedState(pins)
+    val currentOnCountryClick by rememberUpdatedState(onCountryClick)
+    val currentOnPinClick by rememberUpdatedState(onPinClick)
+    val currentOnLongPress by rememberUpdatedState(onLongPress)
+
+    val gestures = if (interactive) {
+        Modifier
+            .pointerInput(state) {
+                detectTransformGestures { centroid, pan, zoom, _ -> state.onGesture(centroid, pan, zoom) }
+            }
+            .pointerInput(state) {
+                detectTapGestures(
+                    onDoubleTap = { state.zoomIn(scope, it) },
+                    onLongPress = {
+                        state.stopAnimation()
+                        val point = if (state.isReady) state.toMap(it) else null
+                        // Ignore presses above or below the map.
+                        if (point != null && point.y in 0f..MillerProjection.WORLD_HEIGHT) currentOnLongPress(point)
+                    },
+                    onTap = { position ->
+                        val pin = state.pinAt(position, currentPins, pinTouchRadius)
+                        if (pin != null) {
+                            currentOnPinClick(pin.id)
+                        } else if (state.isReady) {
+                            val point = state.toMap(position)
+                            currentOnCountryClick(currentMap?.geometry?.countryAt(point.x, point.y))
+                        }
+                    },
+                )
+            }
+    } else {
+        Modifier
+    }
+
+    Canvas(modifier.clipToBounds().onSizeChanged(state::onSizeChanged).then(gestures)) {
+        drawRect(colors.ocean)
+        if (map == null || !state.isReady) return@Canvas
+        val scale = state.scale
+        val offset = state.offset
+        val worldWidthPx = WORLD_WIDTH * scale
+
+        // The map repeats east-west: draw as many copies as needed to fill the view.
+        var left = offset.x
+        while (left < size.width) {
+            withTransform({
+                translate(left, offset.y)
+                scale(scale, scale, pivot = Offset.Zero)
+            }) {
+                drawPath(map.land, colors.land)
+                visitedPath?.let { drawPath(it, colors.visited) }
+                selectedPath?.let { drawPath(it, colors.selection) }
+                drawPath(map.land, colors.border, style = Stroke(width = Stroke.HairlineWidth))
+                selectedPath?.let { drawPath(it, colors.selectionBorder, style = Stroke(width = 2.dp.toPx() / scale)) }
+            }
+            left += worldWidthPx
+        }
+
+        // Pins keep the same size at every zoom level.
+        val radius = 5.dp.toPx()
+        val ring = 1.5.dp.toPx()
+        for (pin in pins) {
+            val y = offset.y + pin.position.y * scale
+            if (y < -radius || y > size.height + radius) continue
+            var x = offset.x + pin.position.x * scale - worldWidthPx
+            while (x < size.width + radius) {
+                if (x > -radius) {
+                    drawCircle(colors.pinBorder, radius + ring, Offset(x, y))
+                    drawCircle(colors.pin, radius, Offset(x, y))
+                }
+                x += worldWidthPx
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+# Gradle / Android Studio
+.gradle/
+.kotlin/
+build/
+/local.properties
+/.idea/
+*.iml
+/captures
+.externalNativeBuild/
+.cxx/
+
+# Release signing: never commit the key or its passwords
+/keystore.properties
+*.jks
+*.keystore
+
+# OS
+.DS_Store
+Thumbs.db

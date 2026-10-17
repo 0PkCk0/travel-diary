@@ -1,0 +1,250 @@
+AD	Andorra	EU	1
+AE	United Arab Emirates	AS	1
+AF	Afghanistan	AS	1
+AG	Antigua and Barbuda	NA	1
+AI	Anguilla	NA	0
+AL	Albania	EU	1
+AM	Armenia	AS	1
+AO	Angola	AF	1
+AQ	Antarctica	AN	0
+AR	Argentina	SA	1
+AS	American Samoa	OC	0
+AT	Austria	EU	1
+AU	Australia	OC	1
+AW	Aruba	NA	0
+AX	Åland Islands	EU	0
+AZ	Azerbaijan	AS	1
+BA	Bosnia and Herzegovina	EU	1
+BB	Barbados	NA	1
+BD	Bangladesh	AS	1
+BE	Belgium	EU	1
+BF	Burkina Faso	AF	1
+BG	Bulgaria	EU	1
+BH	Bahrain	AS	1
+BI	Burundi	AF	1
+BJ	Benin	AF	1
+BL	Saint Barthélemy	NA	0
+BM	Bermuda	NA	0
+BN	Brunei	AS	1
+BO	Bolivia	SA	1
+BQ	Caribbean Netherlands	NA	0
+BR	Brazil	SA	1
+BS	Bahamas	NA	1
+BT	Bhutan	AS	1
+BV	Bouvet Island	AN	0
+BW	Botswana	AF	1
+BY	Belarus	EU	1
+BZ	Belize	NA	1
+CA	Canada	NA	1
+CC	Cocos (Keeling) Islands	AS	0
+CD	Democratic Republic of the Congo	AF	1
+CF	Central African Republic	AF	1
+CG	Republic of the Congo	AF	1
+CH	Switzerland	EU	1
+CI	Ivory Coast	AF	1
+CK	Cook Islands	OC	0
+CL	Chile	SA	1
+CM	Cameroon	AF	1
+CN	China	AS	1
+CO	Colombia	SA	1
+CR	Costa Rica	NA	1
+CU	Cuba	NA	1
+CV	Cabo Verde	AF	1
+CW	Curaçao	NA	0
+CX	Christmas Island	OC	0
+CY	Cyprus	EU	1
+CZ	Czechia	EU	1
+DE	Germany	EU	1
+DJ	Djibouti	AF	1
+DK	Denmark	EU	1
+DM	Dominica	NA	1
+DO	Dominican Republic	NA	1
+DZ	Algeria	AF	1
+EC	Ecuador	SA	1
+EE	Estonia	EU	1
+EG	Egypt	AF	1
+EH	Western Sahara	AF	0
+ER	Eritrea	AF	1
+ES	Spain	EU	1
+ET	Ethiopia	AF	1
+FI	Finland	EU	1
+FJ	Fiji	OC	1
+FK	Falkland Islands	SA	0
+FM	Micronesia	OC	1
+FO	Faroe Islands	EU	0
+FR	France	EU	1
+GA	Gabon	AF	1
+GB	United Kingdom	EU	1
+GD	Grenada	NA	1
+GE	Georgia	AS	1
+GF	French Guiana	SA	0
+GG	Guernsey	EU	0
+GH	Ghana	AF	1
+GI	Gibraltar	EU	0
+GL	Greenland	NA	0
+GM	Gambia	AF	1
+GN	Guinea	AF	1
+GP	Guadeloupe	NA	0
+GQ	Equatorial Guinea	AF	1
+GR	Greece	EU	1
+GS	South Georgia and the South Sandwich Islands	AN	0
+GT	Guatemala	NA	1
+GU	Guam	OC	0
+GW	Guinea-Bissau	AF	1
+GY	Guyana	SA	1
+HK	Hong Kong	AS	0
+HM	Heard Island and McDonald Islands	AN	0
+HN	Honduras	NA	1
+HR	Croatia	EU	1
+HT	Haiti	NA	1
+HU	Hungary	EU	1
+ID	Indonesia	AS	1
+IE	Ireland	EU	1
+IL	Israel	AS	1
+IM	Isle of Man	EU	0
+IN	India	AS	1
+IO	British Indian Ocean Territory	AS	0
+IQ	Iraq	AS	1
+IR	Iran	AS	1
+IS	Iceland	EU	1
+IT	Italy	EU	1
+JE	Jersey	EU	0
+JM	Jamaica	NA	1
+JO	Jordan	AS	1
+JP	Japan	AS	1
+KE	Kenya	AF	1
+KG	Kyrgyzstan	AS	1
+KH	Cambodia	AS	1
+KI	Kiribati	OC	1
+KM	Comoros	AF	1
+KN	Saint Kitts and Nevis	NA	1
+KP	North Korea	AS	1
+KR	South Korea	AS	1
+KW	Kuwait	AS	1
+KY	Cayman Islands	NA	0
+KZ	Kazakhstan	AS	1
+LA	Laos	AS	1
+LB	Lebanon	AS	1
+LC	Saint Lucia	NA	1
+LI	Liechtenstein	EU	1
+LK	Sri Lanka	AS	1
+LR	Liberia	AF	1
+LS	Lesotho	AF	1
+LT	Lithuania	EU	1
+LU	Luxembourg	EU	1
+LV	Latvia	EU	1
+LY	Libya	AF	1
+MA	Morocco	AF	1
+MC	Monaco	EU	1
+MD	Moldova	EU	1
+ME	Montenegro	EU	1
+MF	Saint Martin	NA	0
+MG	Madagascar	AF	1
+MH	Marshall Islands	OC	1
+MK	North Macedonia	EU	1
+ML	Mali	AF	1
+MM	Myanmar	AS	1
+MN	Mongolia	AS	1
+MO	Macao	AS	0
+MP	Northern Mariana Islands	OC	0
+MQ	Martinique	NA	0
+MR	Mauritania	AF	1
+MS	Montserrat	NA	0
+MT	Malta	EU	1
+MU	Mauritius	AF	1
+MV	Maldives	AS	1
+MW	Malawi	AF	1
+MX	Mexico	NA	1
+MY	Malaysia	AS	1
+MZ	Mozambique	AF	1
+NA	Namibia	AF	1
+NC	New Caledonia	OC	0
+NE	Niger	AF	1
+NF	Norfolk Island	OC	0
+NG	Nigeria	AF	1
+NI	Nicaragua	NA	1
+NL	Netherlands	EU	1
+NO	Norway	EU	1
+NP	Nepal	AS	1
+NR	Nauru	OC	1
+NU	Niue	OC	0
+NZ	New Zealand	OC	1
+OM	Oman	AS	1
+PA	Panama	NA	1
+PE	Peru	SA	1
+PF	French Polynesia	OC	0
+PG	Papua New Guinea	OC	1
+PH	Philippines	AS	1
+PK	Pakistan	AS	1
+PL	Poland	EU	1
+PM	Saint Pierre and Miquelon	NA	0
+PN	Pitcairn Islands	OC	0
+PR	Puerto Rico	NA	0
+PS	Palestine	AS	1
+PT	Portugal	EU	1
+PW	Palau	OC	1
+PY	Paraguay	SA	1
+QA	Qatar	AS	1
+RE	Réunion	AF	0
+RO	Romania	EU	1
+RS	Serbia	EU	1
+RU	Russia	EU	1
+RW	Rwanda	AF	1
+SA	Saudi Arabia	AS	1
+SB	Solomon Islands	OC	1
+SC	Seychelles	AF	1
+SD	Sudan	AF	1
+SE	Sweden	EU	1
+SG	Singapore	AS	1
+SH	Saint Helena	AF	0
+SI	Slovenia	EU	1
+SJ	Svalbard and Jan Mayen	EU	0
+SK	Slovakia	EU	1
+SL	Sierra Leone	AF	1
+SM	San Marino	EU	1
+SN	Senegal	AF	1
+SO	Somalia	AF	1
+SR	Suriname	SA	1
+SS	South Sudan	AF	1
+ST	Sao Tome and Principe	AF	1
+SV	El Salvador	NA	1
+SX	Sint Maarten	NA	0
+SY	Syria	AS	1
+SZ	Eswatini	AF	1
+TC	Turks and Caicos Islands	NA	0
+TD	Chad	AF	1
+TF	French Southern Territories	AN	0
+TG	Togo	AF	1
+TH	Thailand	AS	1
+TJ	Tajikistan	AS	1
+TK	Tokelau	OC	0
+TL	Timor-Leste	OC	1
+TM	Turkmenistan	AS	1
+TN	Tunisia	AF	1
+TO	Tonga	OC	1
+TR	Turkey	AS	1
+TT	Trinidad and Tobago	NA	1
+TV	Tuvalu	OC	1
+TW	Taiwan	AS	0
+TZ	Tanzania	AF	1
+UA	Ukraine	EU	1
+UG	Uganda	AF	1
+UM	United States Minor Outlying Islands	OC	0
+US	United States	NA	1
+UY	Uruguay	SA	1
+UZ	Uzbekistan	AS	1
+VA	Vatican City	EU	1
+VC	Saint Vincent and the Grenadines	NA	1
+VE	Venezuela	SA	1
+VG	British Virgin Islands	NA	0
+VI	U.S. Virgin Islands	NA	0
+VN	Vietnam	AS	1
+VU	Vanuatu	OC	1
+WF	Wallis and Futuna	OC	0
+WS	Samoa	OC	1
+XK	Kosovo	EU	0
+YE	Yemen	AS	1
+YT	Mayotte	AF	0
+ZA	South Africa	AF	1
+ZM	Zambia	AF	1
+ZW	Zimbabwe	AF	1

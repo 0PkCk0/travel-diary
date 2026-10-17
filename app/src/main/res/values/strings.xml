@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Travel Diary</string>
+
+    <!-- Common actions -->
+    <string name="action_back">Back</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_clear_date">Clear date</string>
+    <string name="action_close">Close</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_dismiss">Dismiss</string>
+    <string name="action_ok">OK</string>
+    <string name="action_retry">Try again</string>
+    <string name="action_save">Save</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_map">Map</string>
+    <string name="nav_places">Places</string>
+    <string name="nav_stats">Stats</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Continents -->
+    <string name="continent_africa">Africa</string>
+    <string name="continent_antarctica">Antarctica</string>
+    <string name="continent_asia">Asia</string>
+    <string name="continent_europe">Europe</string>
+    <string name="continent_north_america">North America</string>
+    <string name="continent_oceania">Oceania</string>
+    <string name="continent_south_america">South America</string>
+
+    <!-- Map -->
+    <string name="map_search_hint">Search a city you\'ve visited</string>
+    <string name="map_show_world">Show the whole world</string>
+    <string name="map_empty_hint">Search a city to add your first place, or long-press anywhere on the map to drop a pin.</string>
+    <string name="summary_world">of the world</string>
+    <plurals name="summary_countries">
+        <item quantity="one">country</item>
+        <item quantity="other">countries</item>
+    </plurals>
+    <plurals name="summary_places">
+        <item quantity="one">place</item>
+        <item quantity="other">places</item>
+    </plurals>
+    <string name="country_add_city">Add a place in %1$s</string>
+    <string name="country_not_visited">Not visited yet</string>
+    <plurals name="country_places_visited">
+        <item quantity="one">%d place visited</item>
+        <item quantity="other">%d places visited</item>
+    </plurals>
+    <string name="country_picker_title">Choose a country</string>
+    <string name="country_picker_search">Search countries</string>
+
+    <!-- Search -->
+    <string name="search_hint">Search a city</string>
+    <string name="search_hint_in_country">Search a city in %1$s</string>
+    <string name="search_clear_country">Search all countries</string>
+    <string name="search_visited">Already in your diary</string>
+    <string name="search_no_results_title">No city found</string>
+    <string name="search_no_results_message">Check the spelling, download a bigger city database for small towns and villages, or long-press anywhere on the map to drop your own pin.</string>
+    <string name="search_open_city_settings">City database settings</string>
+    <string name="search_tips_title">Where have you been?</string>
+    <string name="search_tips_message">Type the name of a city or town. Search works offline. For a place that is not in the list, long-press anywhere on the map.</string>
+    <string name="search_preparing">Preparing the city database…</string>
+    <string name="search_preparing_count">%1$s places ready</string>
+
+    <!-- Visit editor -->
+    <string name="editor_title_new_place">Add place</string>
+    <string name="editor_title_custom_place">New place</string>
+    <string name="editor_title_new_visit">New visit</string>
+    <string name="editor_title_edit_visit">Edit visit</string>
+    <string name="editor_already_visited">You have been here before: this adds another visit.</string>
+    <string name="editor_when">When were you there?</string>
+    <string name="editor_arrival">Arrival</string>
+    <string name="editor_departure">Departure</string>
+    <string name="editor_dates_optional">Both dates are optional.</string>
+    <string name="editor_notes">Notes</string>
+    <string name="editor_notes_hint">What did you see, eat, discover?</string>
+    <string name="editor_place_name">Place name</string>
+    <string name="editor_place_name_hint">e.g. Plitvice Lakes</string>
+    <string name="editor_choose_country">Choose a country</string>
+    <string name="editor_delete_visit">Delete visit</string>
+    <string name="editor_delete_visit_title">Delete this visit?</string>
+    <string name="editor_delete_visit_message">Its dates and notes will be removed. The place stays in your diary.</string>
+    <string name="editor_error_end_before_start">The departure date is before the arrival date.</string>
+    <string name="editor_error_name_missing">Give this place a name.</string>
+    <string name="editor_error_country_missing">Choose the country this place is in.</string>
+    <string name="editor_error_not_found">This place no longer exists.</string>
+
+    <!-- Place details -->
+    <string name="place_add_visit">Add visit</string>
+    <string name="place_delete">Delete place</string>
+    <string name="place_delete_title">Delete %1$s?</string>
+    <string name="place_delete_message">The place and all its visits and notes will be removed from your diary.</string>
+    <string name="place_no_visits">No visits recorded yet.</string>
+    <plurals name="place_visits">
+        <item quantity="one">%d visit</item>
+        <item quantity="other">%d visits</item>
+    </plurals>
+    <string name="visit_no_date">No date</string>
+    <string name="visit_no_notes">No notes yet. Tap to write some.</string>
+    <plurals name="visit_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+
+    <!-- Places list -->
+    <string name="places_title">My places</string>
+    <string name="places_tab_countries">By country</string>
+    <string name="places_tab_timeline">Timeline</string>
+    <string name="places_timeline_undated">No date</string>
+    <string name="places_empty_title">Your diary is empty</string>
+    <string name="places_empty_message">Add the cities you have visited and they will show up here, grouped by country and on a timeline.</string>
+    <string name="places_empty_action">Add a place</string>
+    <plurals name="places_count">
+        <item quantity="one">%d place</item>
+        <item quantity="other">%d places</item>
+    </plurals>
+
+    <!-- Statistics -->
+    <string name="stats_title">Statistics</string>
+    <string name="stats_you_visited">You have visited</string>
+    <string name="stats_world_share">%1$s of the world (%2$d of %3$d countries)</string>
+    <string name="stats_continents">continents</string>
+    <plurals name="stats_travel_days">
+        <item quantity="one">travel day</item>
+        <item quantity="other">travel days</item>
+    </plurals>
+    <string name="stats_by_continent">Continents</string>
+    <string name="stats_by_country">Countries</string>
+    <string name="stats_first_visit">First visit in %1$d</string>
+    <string name="stats_continent_visited">Visited</string>
+    <string name="stats_continent_not_visited">Not yet</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_cities_title">City database</string>
+    <string name="settings_cities_description">City search works offline with a local copy of GeoNames. Download a bigger list to find smaller towns and villages. Your diary is not affected when you switch.</string>
+    <string name="settings_cities_installed">In use: %1$s</string>
+    <string name="settings_cities_installed_details">%1$s places · installed %2$s</string>
+    <string name="dataset_builtin">Built-in</string>
+    <string name="dataset_builtin_description">Cities above 15,000 people and every capital</string>
+    <string name="dataset_medium">Medium</string>
+    <string name="dataset_medium_description">Towns above 5,000 people</string>
+    <string name="dataset_large">Large</string>
+    <string name="dataset_large_description">Towns above 1,000 people</string>
+    <string name="dataset_complete">Complete</string>
+    <string name="dataset_complete_description">Villages above 500 people</string>
+    <string name="settings_dataset_count">about %1$s places</string>
+    <string name="settings_dataset_download">%1$s download</string>
+    <string name="settings_dataset_get">Download</string>
+    <string name="settings_dataset_use">Use</string>
+    <string name="settings_dataset_in_use">In use</string>
+    <string name="settings_downloading">Downloading the %1$s list…</string>
+    <string name="settings_download_progress">%1$s of %2$s</string>
+    <string name="settings_importing">Installing the %1$s list…</string>
+    <string name="settings_import_progress">%1$s places read</string>
+    <string name="settings_download_failed_network">The download failed. Check your internet connection and try again.</string>
+    <string name="settings_download_failed">The city list could not be installed.</string>
+
+    <string name="settings_backup_title">Backup</string>
+    <string name="settings_export">Export diary</string>
+    <string name="settings_export_description">Save all your places, dates and notes to a file</string>
+    <string name="settings_export_done">Diary exported</string>
+    <string name="settings_export_failed">The diary could not be exported</string>
+    <string name="settings_import">Import diary</string>
+    <string name="settings_import_description">Replace this diary with a backup file</string>
+    <string name="settings_import_confirm_title">Replace your diary?</string>
+    <string name="settings_import_confirm_message">All the places and notes currently in the app will be replaced by the ones in the backup.</string>
+    <string name="settings_import_confirm_action">Replace</string>
+    <plurals name="settings_import_done">
+        <item quantity="one">%d place imported</item>
+        <item quantity="other">%d places imported</item>
+    </plurals>
+    <string name="settings_import_invalid">This file is not a Travel Diary backup</string>
+    <string name="settings_import_failed">The backup could not be imported</string>
+
+    <string name="settings_about_title">About</string>
+    <string name="settings_version">Version %1$s</string>
+    <string name="settings_privacy">Private by design</string>
+    <string name="settings_privacy_description">No account, no ads, no tracking. Your diary stays on this device; the app only goes online to download a city database when you ask.</string>
+    <string name="settings_source_code">Source code</string>
+    <string name="settings_map_data">Map data</string>
+    <string name="settings_map_data_description">Natural Earth (public domain)</string>
+    <string name="settings_city_data">City data</string>
+    <string name="settings_city_data_description">GeoNames (geonames.org), licensed under CC BY 4.0</string>
+</resources>
