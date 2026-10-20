@@ -38,6 +38,9 @@ fun WorldMap(
     modifier: Modifier = Modifier,
     selectedCountry: String? = null,
     interactive: Boolean = true,
+    gravityTrajectory: GravityTrajectory? = null,
+    gravityCurrentPosition: Offset? = null,
+    gravityProgress: Float = 1f,
     onCountryClick: (String?) -> Unit = {},
     onPinClick: (Long) -> Unit = {},
     onLongPress: (Offset) -> Unit = {},
@@ -103,8 +106,54 @@ fun WorldMap(
                 selectedPath?.let { drawPath(it, colors.selection) }
                 drawPath(map.land, colors.border, style = Stroke(width = Stroke.HairlineWidth))
                 selectedPath?.let { drawPath(it, colors.selectionBorder, style = Stroke(width = 2.dp.toPx() / scale)) }
+                gravityTrajectory?.let { trajectory ->
+                    // Faint line for remaining trajectory ahead of the current date
+                    for (segment in trajectory.segments) {
+                        if (segment.progress > gravityProgress) {
+                            drawLine(
+                                color = colors.gravityLine,
+                                start = segment.start,
+                                end = segment.end,
+                                strokeWidth = 1.5.dp.toPx() / scale,
+                            )
+                        }
+                    }
+                    // Solid line for past trajectory up to current date
+                    for (segment in trajectory.segments) {
+                        if (segment.progress <= gravityProgress) {
+                            drawLine(
+                                color = colors.gravityLinePast,
+                                start = segment.start,
+                                end = segment.end,
+                                strokeWidth = 2.5.dp.toPx() / scale,
+                            )
+                        }
+                    }
+                }
             }
             left += worldWidthPx
+        }
+
+        // Center-of-gravity marker at the current date
+        gravityCurrentPosition?.let { center ->
+            val y = offset.y + center.y * scale
+            val haloRadius = 14.dp.toPx()
+            val outerRadius = 8.dp.toPx()
+            val innerRadius = 5.dp.toPx()
+            val coreRadius = 2.dp.toPx()
+            if (y >= -haloRadius && y <= size.height + haloRadius) {
+                var x = offset.x + center.x * scale - worldWidthPx
+                while (x < size.width + haloRadius) {
+                    if (x > -haloRadius) {
+                        val centerOffset = Offset(x, y)
+                        drawCircle(colors.gravityPinHalo, haloRadius, centerOffset)
+                        drawCircle(colors.pinBorder, outerRadius, centerOffset)
+                        drawCircle(colors.gravityPin, innerRadius, centerOffset)
+                        drawCircle(colors.pinBorder, coreRadius, centerOffset)
+                    }
+                    x += worldWidthPx
+                }
+            }
         }
 
         // Pins keep the same size at every zoom level.

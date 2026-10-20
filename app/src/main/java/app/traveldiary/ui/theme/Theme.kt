@@ -76,6 +76,10 @@ data class MapColors(
     val selectionBorder: Color,
     val pin: Color,
     val pinBorder: Color,
+    val gravityLine: Color,
+    val gravityLinePast: Color,
+    val gravityPin: Color,
+    val gravityPinHalo: Color,
 )
 
 private val LightMapColors = MapColors(
@@ -87,6 +91,10 @@ private val LightMapColors = MapColors(
     selectionBorder = Color(0xFF00201F),
     pin = Color(0xFFE0603F),
     pinBorder = Color(0xFFFFFFFF),
+    gravityLine = Color(0x4D0F6E6C),
+    gravityLinePast = Color(0xFF0F6E6C),
+    gravityPin = Color(0xFFB4452F),
+    gravityPinHalo = Color(0x33B4452F),
 )
 
 private val DarkMapColors = MapColors(
@@ -98,6 +106,10 @@ private val DarkMapColors = MapColors(
     selectionBorder = Color(0xFFE6F2F1),
     pin = Color(0xFFFF8A6B),
     pinBorder = Color(0xFF0E1514),
+    gravityLine = Color(0x4D86D5D2),
+    gravityLinePast = Color(0xFF86D5D2),
+    gravityPin = Color(0xFFFFB4A5),
+    gravityPinHalo = Color(0x33FFB4A5),
 )
 
 val LocalMapColors = staticCompositionLocalOf { LightMapColors }

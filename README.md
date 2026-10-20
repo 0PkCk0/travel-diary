@@ -17,6 +17,10 @@ light up on a world map, and keep notes about each trip. Everything stays on you
 - **World map home screen**: visited countries are highlighted and every place gets a pin.
   Drag, pinch or double-tap to zoom; the map wraps around the globe. Tap a country to see your
   places there or add one.
+- **Center of gravity over time**: view your travels with a concept of time. A moving average
+  (with configurable period: 30 days, 90 days, 180 days, 1 year, or all time) calculates your
+  spherical center of gravity across time, drawing an animated line across the globe with interactive
+  playback and scrubbing.
 - **Offline city search**: about 34,000 cities are built in (every city above 15,000 people and
   every capital, including the smallest countries). Bigger lists with up to 236,000 towns and
   villages can be downloaded from [GeoNames](https://www.geonames.org) in Settings.
