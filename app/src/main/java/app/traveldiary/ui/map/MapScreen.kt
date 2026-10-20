@@ -1,6 +1,10 @@
 package app.traveldiary.ui.map
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animate
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -19,23 +24,31 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Slider
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -53,12 +66,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.traveldiary.R
 import app.traveldiary.data.countries.Country
 import app.traveldiary.data.diary.PlaceWithVisits
+import app.traveldiary.map.GravityPeriod
+import app.traveldiary.map.GravityTimeline
 import app.traveldiary.map.MapFocus
 import app.traveldiary.map.MapViewportState
 import app.traveldiary.map.MillerProjection
 import app.traveldiary.map.WorldMap
 import app.traveldiary.map.rememberMapViewportState
 import app.traveldiary.ui.common.Flag
+import app.traveldiary.ui.common.formatCoordinates
+import app.traveldiary.ui.common.formatDate
 import app.traveldiary.ui.common.formatDateRange
 import kotlin.math.roundToInt
 import kotlinx.coroutines.flow.first
@@ -81,6 +98,7 @@ fun MapScreen(
         onSearch = onSearch,
         onOpenPlace = onOpenPlace,
         onAddCustomPlace = onAddCustomPlace,
+        onPeriodChange = viewModel::setGravityPeriod,
         focusPlaceId = focusPlaceId,
         onFocusHandled = onFocusHandled,
     )
@@ -95,6 +113,7 @@ fun MapScreenContent(
     onOpenPlace: (Long) -> Unit,
     onAddCustomPlace: (latitude: Double, longitude: Double) -> Unit,
     modifier: Modifier = Modifier,
+    onPeriodChange: (GravityPeriod) -> Unit = {},
     focusPlaceId: Long? = null,
     onFocusHandled: () -> Unit = {},
     viewport: MapViewportState = rememberMapViewportState(),
@@ -102,6 +121,9 @@ fun MapScreenContent(
 ) {
     val scope = rememberCoroutineScope()
     var selectedCountry by rememberSaveable { mutableStateOf(initialSelectedCountry) }
+    var gravityMode by rememberSaveable { mutableStateOf(false) }
+    var playbackProgress by rememberSaveable { mutableFloatStateOf(1f) }
+    var isPlaying by rememberSaveable { mutableStateOf(false) }
 
     // After adding a place, fly to it.
     LaunchedEffect(focusPlaceId, state.places) {
@@ -111,6 +133,23 @@ fun MapScreenContent(
         onFocusHandled()
     }
 
+    // Smoothly animate time from start to finish when playback is active
+    LaunchedEffect(isPlaying, state.gravityTimeline) {
+        if (!isPlaying || state.gravityTimeline.isEmpty) return@LaunchedEffect
+        val startProgress = if (playbackProgress >= 1f) 0f else playbackProgress
+        playbackProgress = startProgress
+        val remainingFraction = 1f - startProgress
+        val durationMs = (15_000 * remainingFraction).roundToInt().coerceAtLeast(1_000)
+        animate(
+            initialValue = startProgress,
+            targetValue = 1f,
+            animationSpec = tween(durationMillis = durationMs, easing = LinearEasing),
+        ) { value, _ ->
+            playbackProgress = value
+        }
+        isPlaying = false
+    }
+
     Box(modifier.fillMaxSize()) {
         WorldMap(
             map = map,
@@ -118,6 +157,9 @@ fun MapScreenContent(
             visitedCountries = state.visitedCountries,
             pins = state.pins,
             selectedCountry = selectedCountry,
+            gravityTrajectory = if (gravityMode) state.gravityTimeline.trajectory else null,
+            gravityCurrentPosition = if (gravityMode) state.gravityTimeline.trajectory.positionAt(playbackProgress) else null,
+            gravityProgress = if (gravityMode) playbackProgress else 1f,
             onCountryClick = { selectedCountry = it },
             onPinClick = onOpenPlace,
             onLongPress = { position ->
@@ -145,12 +187,55 @@ fun MapScreenContent(
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            SummaryCard(state, Modifier.weight(1f))
-            SmallFloatingActionButton(onClick = {
-                selectedCountry = null
-                viewport.animateTo(scope, MapFocus.World)
-            }) {
-                Icon(Icons.Filled.Public, contentDescription = stringResource(R.string.map_show_world))
+            if (gravityMode) {
+                GravityTimelineCard(
+                    timeline = state.gravityTimeline,
+                    period = state.gravityPeriod,
+                    progress = playbackProgress,
+                    isPlaying = isPlaying,
+                    onProgressChange = {
+                        isPlaying = false
+                        playbackProgress = it
+                    },
+                    onPlayToggle = { isPlaying = !isPlaying },
+                    onPeriodSelect = onPeriodChange,
+                    onClose = {
+                        isPlaying = false
+                        gravityMode = false
+                    },
+                    modifier = Modifier.weight(1f),
+                )
+            } else {
+                SummaryCard(state, Modifier.weight(1f))
+            }
+
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                SmallFloatingActionButton(
+                    onClick = {
+                        selectedCountry = null
+                        if (gravityMode) {
+                            isPlaying = false
+                            gravityMode = false
+                        } else {
+                            gravityMode = true
+                            if (playbackProgress == 0f) playbackProgress = 1f
+                        }
+                    },
+                    containerColor = if (gravityMode) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh,
+                    contentColor = if (gravityMode) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.primary,
+                ) {
+                    Icon(
+                        imageVector = if (gravityMode) Icons.Filled.Place else Icons.Filled.Timeline,
+                        contentDescription = stringResource(if (gravityMode) R.string.map_mode_places else R.string.map_mode_gravity),
+                    )
+                }
+
+                SmallFloatingActionButton(onClick = {
+                    selectedCountry = null
+                    viewport.animateTo(scope, MapFocus.World)
+                }) {
+                    Icon(Icons.Filled.Public, contentDescription = stringResource(R.string.map_show_world))
+                }
             }
         }
 
@@ -192,6 +277,106 @@ private fun SearchPill(onClick: () -> Unit, modifier: Modifier = Modifier) {
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+        }
+    }
+}
+
+@Composable
+private fun GravityTimelineCard(
+    timeline: GravityTimeline,
+    period: GravityPeriod,
+    progress: Float,
+    isPlaying: Boolean,
+    onProgressChange: (Float) -> Unit,
+    onPlayToggle: () -> Unit,
+    onPeriodSelect: (GravityPeriod) -> Unit,
+    onClose: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(20.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        shadowElevation = 4.dp,
+    ) {
+        if (timeline.isEmpty) {
+            Column(Modifier.padding(16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        stringResource(R.string.gravity_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.weight(1f),
+                    )
+                    IconButton(onClick = onClose, modifier = Modifier.size(24.dp)) {
+                        Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.action_close))
+                    }
+                }
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    stringResource(R.string.gravity_no_dates_hint),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        } else {
+            val startDate = timeline.startDate!!
+            val totalDays = timeline.totalDays
+            val currentDate = timeline.trajectory.dateAt(progress, startDate, totalDays)
+            val coords = timeline.trajectory.coordinatesAt(progress)
+
+            Column(Modifier.padding(horizontal = 14.dp, vertical = 10.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text(
+                            formatDate(currentDate),
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                        coords?.let { (lat, lon) ->
+                            Text(
+                                formatCoordinates(lat, lon),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                    IconButton(onClick = onClose, modifier = Modifier.size(28.dp)) {
+                        Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.action_close))
+                    }
+                }
+
+                Spacer(Modifier.height(4.dp))
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(onClick = onPlayToggle, modifier = Modifier.size(36.dp)) {
+                        Icon(
+                            if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                            contentDescription = stringResource(if (isPlaying) R.string.gravity_pause else R.string.gravity_play),
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                    }
+                    Slider(
+                        value = progress,
+                        onValueChange = onProgressChange,
+                        modifier = Modifier.weight(1f).padding(horizontal = 4.dp),
+                    )
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    GravityPeriod.entries.forEach { p ->
+                        val selected = p == period
+                        FilterChip(
+                            selected = selected,
+                            onClick = { onPeriodSelect(p) },
+                            label = { Text(stringResource(p.labelRes), style = MaterialTheme.typography.labelSmall) },
+                        )
+                    }
+                }
+            }
         }
     }
 }
